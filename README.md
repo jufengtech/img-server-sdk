@@ -1,4 +1,4 @@
-JF图片服务 PHP SDK
+# JF图片服务 PHP SDK
 
 ## 说明
 http 请求使用 Guzzle 三方库（v5.3），具体文档可参考：https://github.com/guzzle/guzzle
@@ -10,6 +10,8 @@ composer require jufeng/phpsdk
 
 ## 使用方法
 ```
+<?php
+
 require 'vendor/autoload.php';
 
 // 实例化客户端
