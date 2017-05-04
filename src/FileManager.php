@@ -14,6 +14,7 @@ class FileManager
     protected $client;
     protected $ak;
     protected $sk;
+    protected $timeout = 10;
     /**
      * 上传策略。
      *
@@ -56,6 +57,16 @@ class FileManager
     }
 
     /**
+     * 设置超时
+     *
+     * @param integer $timeout curl超时，秒
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+    }
+
+    /**
      * 文件上传
      *
      * @param string $file 文件路径
@@ -71,7 +82,8 @@ class FileManager
                 'body' => [
                     'token' => $token,
                     'file' => fopen($file, 'r'),
-                ]
+                ],
+                'timeout' => $this->timeout,
             ]);
     }
 }
