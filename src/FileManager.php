@@ -21,11 +21,11 @@ class FileManager
      */
     protected $policy;
 
-    public function __construct($ak, $sk, $baseUrl = 'http://img-upload.20hn.cn/v1')
+    public function __construct($ak, $sk, $baseUrl = 'http://img-upload.20hn.cn/v1/')
     {
         $this->ak = $ak;
         $this->sk = $sk;
-        $this->client = new Client(['base_url' => rtrim($baseUrl, '/')]);
+        $this->client = new Client(['base_url' => rtrim($baseUrl, '/') . '/']);
         $this->policy = [
             'deadline' => time() + 3600,
             'autoCompress' => 1,
@@ -67,7 +67,7 @@ class FileManager
             throw new \InvalidArgumentException("文件不存在或无读取权限：" . $file);
         }
 
-        return $this->client->post('/upload', [
+        return $this->client->post('upload', [
                 'body' => [
                     'token' => $token,
                     'file' => fopen($file, 'r'),
