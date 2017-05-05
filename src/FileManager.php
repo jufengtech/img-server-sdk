@@ -78,10 +78,15 @@ class FileManager
             throw new \InvalidArgumentException("文件不存在或无读取权限：" . $file);
         }
 
+        $fileHandle = fopen($file, 'r');
+        if ($fileHandle === false) {
+            throw new \RuntimeException("读取文件失败：" . $file);
+        }
+
         return $this->client->post('upload', [
                 'body' => [
                     'token' => $token,
-                    'file' => fopen($file, 'r'),
+                    'file' => $fileHandle,
                 ],
                 'timeout' => $this->timeout,
             ]);
