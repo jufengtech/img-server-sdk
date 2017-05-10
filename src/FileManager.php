@@ -83,7 +83,7 @@ class FileManager
             throw new \RuntimeException("读取文件失败：" . $file);
         }
 
-        return $this->client->post('upload', [
+        return $this->client->post('images/upload', [
                 'body' => [
                     'token' => $token,
                     'file' => $fileHandle,
