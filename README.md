@@ -46,3 +46,49 @@ try {
     echo $e->getMessage();
 }
 ```
+
+# JF图片服务 JS SDK
+
+推荐使用的三方上传组件：[uploadify](http://www.uploadify.com/)、[plupload](http://www.plupload.com/)。相对于`uploadify`，`plupload`功能更为全面，支持html5、flash、silverlight等多种上传方式。上传组件的具体使用请参考其官方文档。
+
+相对于传统的上传方式，使用图片服务的不同之处在于上传之前需要到服务端获取`token`，然后上传文件时带上`token`参数即可。以`uploadify`为例，代码如下所示：
+
+```javascript
+$('#file_upload').uploadify({
+    'swf'      : 'uploadify.swf',
+    'uploader' : '/file/upload', // 图片服务url
+    'buttonText':'点击上传',
+    'buttonImage':'btnbg.png',
+    'multi'    : false,
+    'formData' : {token: 'upload_token'}, // 从服务端获取的token值
+    'onUploadSuccess': function (file, data, response) {
+        // 上传成功回调
+    },
+});
+```
+
+`plupload`的使用方法类似：
+
+```javascript
+var uploader = new plupload.Uploader({
+    runtimes : 'html5,flash,silverlight,html4',
+    flash_swf_url : 'plupload-2.3.1/js/Moxie.swf',
+    silverlight_xap_url : 'plupload-2.3.1/js/Moxie.xap',
+    filters : {
+        max_file_size : '2mb', //文件上传大小
+        mime_types: [
+            {title : "Image files", extensions : "jpg,jpeg,gif,png"},
+        ], // 文件上传类型
+    },
+    drop_element : 'dropElementId', // 拖拽上传
+    browse_button : 'browseButtonId', // 浏览上传
+    url : 'file/upload', // 图片服务url
+    multipart_params : {token: 'upload_token'} // 从服务端获取的token值
+});
+
+uploader.init();
+
+uploader.bind('FilesAdded', function(up, files) {});
+uploader.bind('UploadProgress', function(up, file) {});
+uploader.bind('Error', function(up, err) {});
+```
