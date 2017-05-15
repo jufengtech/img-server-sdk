@@ -31,9 +31,12 @@ $client = new JF\FileManager('ak', 'sk', 'http://img-upload.20hn.cn/v1');
 // 获取token
 $token = $client->getToken();
 
-// 文件上传
 try {
+    // 文件上传
     $response = $client->upload($filePath = '/tmp/test.jpeg', $token);
+    // 远程图片采集
+    // $response = $client->collect('http://9.pic.pc6.com/thumb/up/2015-4/14301352575151701_600_0.jpg', $token);
+
     // http 请求返回内容
     echo $response->getBody();
     // http 响应状态码
