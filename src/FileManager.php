@@ -107,7 +107,7 @@ class FileManager
         }
 
         return $this->client->get('images/collect', [
-                'body' => [
+                'query' => [
                     'token' => $token,
                     'url' => $url,
                 ],
