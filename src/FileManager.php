@@ -70,6 +70,7 @@ class FileManager
      * 文件上传
      *
      * @param string $file 文件路径
+     * @param string $token token
      * @return
      */
     public function upload($file, $token)
@@ -87,6 +88,28 @@ class FileManager
                 'body' => [
                     'token' => $token,
                     'file' => $fileHandle,
+                ],
+                'timeout' => $this->timeout,
+            ]);
+    }
+
+    /**
+     * 远程文件下载
+     *
+     * @param string $url 文件url
+     * @param string $token token
+     * @return
+     */
+    public function collect($url, $token)
+    {
+        if (false === filter_var($url, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException("url无效：" . $url);
+        }
+
+        return $this->client->get('images/collect', [
+                'body' => [
+                    'token' => $token,
+                    'url' => $url,
                 ],
                 'timeout' => $this->timeout,
             ]);
