@@ -106,8 +106,8 @@ class FileManager
             throw new \InvalidArgumentException("url无效：" . $url);
         }
 
-        return $this->client->get('images/collect', [
-                'query' => [
+        return $this->client->post('images/collect', [
+                'body' => [
                     'token' => $token,
                     'url' => $url,
                 ],
