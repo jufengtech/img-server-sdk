@@ -14,6 +14,7 @@ class FileManager
     protected $client;
     protected $ak;
     protected $sk;
+    protected $token;
     protected $timeout = 10;
     /**
      * 上传策略。
@@ -31,6 +32,7 @@ class FileManager
             'deadline' => time() + 3600,
             'autoCompress' => 1,
         ];
+        $this->token = $this->getToken();
     }
 
     /**
@@ -42,6 +44,7 @@ class FileManager
     public function setPolicy(array $policy)
     {
         $this->policy = $policy;
+        $this->token = $this->getToken();
     }
 
     /**
@@ -49,7 +52,7 @@ class FileManager
      *
      * @return string token
      */
-    public function getToken()
+    protected function getToken()
     {
         $encodeStr = base64_encode(json_encode($this->policy));
         return base64_encode($this->ak) . ':' . $encodeStr . ':' .
@@ -73,7 +76,7 @@ class FileManager
      * @param string $token token
      * @return
      */
-    public function upload($file, $token)
+    public function upload($file)
     {
         if (!is_readable($file)) {
             throw new \InvalidArgumentException("文件不存在或无读取权限：" . $file);
@@ -86,7 +89,7 @@ class FileManager
 
         return $this->client->post('images/upload', [
                 'body' => [
-                    'token' => $token,
+                    'token' => $this->token,
                     'file' => $fileHandle,
                 ],
                 'timeout' => $this->timeout,
@@ -100,7 +103,7 @@ class FileManager
      * @param string $token token
      * @return
      */
-    public function collect($url, $token)
+    public function collect($url)
     {
         if (false === filter_var($url, FILTER_VALIDATE_URL)) {
             throw new \InvalidArgumentException("url无效：" . $url);
@@ -108,7 +111,7 @@ class FileManager
 
         return $this->client->post('images/collect', [
                 'body' => [
-                    'token' => $token,
+                    'token' => $this->token,
                     'url' => $url,
                 ],
                 'timeout' => $this->timeout,

@@ -18,8 +18,13 @@ class FileManager extends PHPUnit_Framework_TestCase
 
     public function testCollect()
     {
-        $token = $this->client->getToken();
-        $response = $this->client->collect('http://9.pic.pc6.com/thumb/up/2015-4/14301352575151701_600_0.jpg', $token);
+        $response = $this->client->collect('http://9.pic.pc6.com/thumb/up/2015-4/14301352575151701_600_0.jpg');
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testUpload()
+    {
+        $response = $this->client->upload('composer.json');
         $this->assertEquals(200, $response->getStatusCode());
     }
 }

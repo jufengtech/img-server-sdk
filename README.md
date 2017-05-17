@@ -28,14 +28,12 @@ require 'vendor/autoload.php';
 $client = new JF\FileManager('ak', 'sk', 'http://img-upload.20hn.cn/v1');
 // 设置上传策略，无特殊需求可省略。参考：参考：http://git.20hn.cn/developer/img-server/wikis/api-des
 // $client->setPolicy(['deadline' => time() + 3600, 'autoCompress' => 1]);
-// 获取token
-$token = $client->getToken();
 
 try {
     // 文件上传
-    $response = $client->upload($filePath = '/tmp/test.jpeg', $token);
+    $response = $client->upload($filePath = '/tmp/test.jpeg');
     // 远程图片采集
-    // $response = $client->collect('http://9.pic.pc6.com/thumb/up/2015-4/14301352575151701_600_0.jpg', $token);
+    // $response = $client->collect('http://9.pic.pc6.com/thumb/up/2015-4/14301352575151701_600_0.jpg');
 
     // http 请求返回内容
     echo $response->getBody();
