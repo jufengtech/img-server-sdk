@@ -4,9 +4,6 @@
 http 请求使用 Guzzle 三方库（v5.3），具体文档可参考：[Guzzle v5.3 Doc](http://guzzle.readthedocs.io/en/5.3/)
 
 ## 安装
-```
-composer require jufeng/phpsdk
-```
 由于本项目未发布到[packagist](https://packagist.org)，因此本地安装时需要在项目的`composer.json`文件中加入如下内容：
 ```
 "repositories": [
@@ -16,7 +13,11 @@ composer require jufeng/phpsdk
     }
 ]
 ```
-之后运行`composer install`即可。
+另外，在项目的`composer.json`文件的`require`项中添加如下内容：
+```
+"jufeng/phpsdk": "dev-master"
+```
+之后运行`composer install` 或 `composer update`即可。
 
 ## 使用方法
 ```php
