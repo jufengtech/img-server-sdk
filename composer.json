@@ -1,0 +1,20 @@
+{
+    "name": "jufeng/phpsdk",
+    "description": "JuFeng SDK for PHP",
+    "type": "library",
+    "authors": [
+        {
+            "name": "sjh",
+            "email": "sjh@jf.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "guzzlehttp/guzzle": "5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "JF\\": "src/"
+        }
+    }
+}
