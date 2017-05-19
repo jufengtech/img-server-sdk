@@ -6,7 +6,7 @@ http 请求使用 Guzzle 三方库（v5.3），具体文档可参考：[Guzzle v
 ## 安装
 
 ```
-composer install jufengtech/img-server-sdk
+composer require jufeng/phpsdk
 ```
 
 ## 使用方法
