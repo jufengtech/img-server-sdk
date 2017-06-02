@@ -6,6 +6,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
+         bootstrap="./tests/init.php"
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Application Test Suite">
