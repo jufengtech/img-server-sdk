@@ -23,13 +23,13 @@ class FileManager
      */
     protected $policy;
 
-    public function __construct($ak, $sk, $baseUrl = 'http://img-upload.20hn.cn/v1/')
+    public function __construct($ak, $sk, $baseUrl = 'https://img-upload.20hn.cn/v1/')
     {
         $this->ak = $ak;
         $this->sk = $sk;
         $this->client = new Client(['base_url' => rtrim($baseUrl, '/') . '/']);
         $this->policy = [
-            'deadline' => time() + 3600,
+            'deadline' => time() + 900,
             'autoCompress' => 1,
         ];
         $this->token = $this->getToken();

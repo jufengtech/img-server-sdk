@@ -21,7 +21,7 @@ class FileManagerTest extends PHPUnit_Framework_TestCase
 
     public function testUpload()
     {
-        $response = $this->client->upload('composer.json');
+        $response = $this->client->upload('tests/fixture/upload.png');
         $this->assertEquals(200, $response->getStatusCode());
     }
 }
