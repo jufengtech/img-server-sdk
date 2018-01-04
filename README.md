@@ -17,8 +17,11 @@ require 'vendor/autoload.php';
 
 // 实例化客户端
 $client = new JF\FileManager('ak', 'sk', 'http://img-upload.20hn.cn/v1');
+
 // 设置上传策略，无特殊需求可省略。参考：参考：http://git.20hn.cn/developer/img-server/wikis/api-des
 // $client->setPolicy(['deadline' => time() + 3600, 'autoCompress' => 1]);
+// 获取token值
+// echo $client->getToken();
 
 try {
     // 文件上传
