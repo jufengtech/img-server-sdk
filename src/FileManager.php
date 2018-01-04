@@ -52,7 +52,7 @@ class FileManager
      *
      * @return string token
      */
-    protected function getToken()
+    public function getToken()
     {
         $encodeStr = base64_encode(json_encode($this->policy));
         return base64_encode($this->ak) . ':' . $encodeStr . ':' .
