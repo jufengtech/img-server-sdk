@@ -27,7 +27,7 @@ class FileManager
     {
         $this->ak = $ak;
         $this->sk = $sk;
-        $this->client = new Client(['base_url' => rtrim($baseUrl, '/') . '/']);
+        $this->client = new Client(['base_uri' => rtrim($baseUrl, '/') . '/']);
         $this->policy = [
             'deadline' => time() + 900,
             'autoCompress' => 1,
@@ -87,13 +87,19 @@ class FileManager
             throw new \RuntimeException("读取文件失败：" . $file);
         }
 
-        return $this->client->post('images/upload', [
-                'body' => [
-                    'token' => $this->token,
-                    'file' => $fileHandle,
+        return $this->client->POST('images/upload', [
+            'multipart' => [
+                [
+                    'name' =>'token',
+                    'contents'=>$this->token,
                 ],
-                'timeout' => $this->timeout,
-            ]);
+                [
+                    'name' =>'file',
+                    'contents'=> $fileHandle,
+                ]
+            ],
+            'timeout' => $this->timeout
+        ]);
     }
 
     /**
@@ -109,12 +115,18 @@ class FileManager
             throw new \InvalidArgumentException("url无效：" . $url);
         }
 
-        return $this->client->post('images/collect', [
-                'body' => [
-                    'token' => $this->token,
-                    'url' => $url,
+        return $this->client->request('POST', 'images/collect', [
+            'multipart' => [
+                [
+                    'name' =>'token',
+                    'contents'=>$this->token,
                 ],
-                'timeout' => $this->timeout,
-            ]);
+                [
+                    'name' =>'url',
+                    'contents'=> $url,
+                ]
+            ],
+            'timeout' => $this->timeout
+        ]);
     }
 }
