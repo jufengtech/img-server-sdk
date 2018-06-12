@@ -1,7 +1,7 @@
 # JF图片服务 PHP SDK
 
 ## 说明
-http 请求使用 Guzzle 三方库（v5.3），具体文档可参考：[Guzzle v5.3 Doc](http://guzzle.readthedocs.io/en/5.3/)
+http 请求使用 Guzzle 三方库（v6.3），具体文档可参考：[Guzzle v6.3 Doc](http://guzzle.readthedocs.io/en/stable/)
 
 ## 安装
 
@@ -19,7 +19,7 @@ require 'vendor/autoload.php';
 $client = new JF\FileManager('ak', 'sk', 'http://img-upload.20hn.cn/v1');
 
 // 设置上传策略，无特殊需求可省略。参考：参考：http://git.20hn.cn/developer/img-server/wikis/api-des
-// $client->setPolicy(['deadline' => time() + 3600, 'autoCompress' => 1]);
+// $client->setPolicy(['deadline' => time() + 3600, 'autoCompress' => 1, 'autoWatermark' => 1]);
 // 获取token值
 // echo $client->getToken();
 
