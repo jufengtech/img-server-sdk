@@ -3,6 +3,7 @@
 namespace JF;
 
 use GuzzleHttp\Client;
+use Ramsey\Uuid\Uuid;
 
 class FileManager
 {
@@ -15,7 +16,8 @@ class FileManager
     protected $ak;
     protected $sk;
     protected $token;
-    protected $timeout = 10;
+    protected $timeout = 5;
+    protected $policyAllowed = ['deadline', 'autoCompress', 'autoWatermark', 'timestamp', 'nonce'];
     /**
      * 上传策略。
      *
@@ -28,9 +30,12 @@ class FileManager
         $this->ak = $ak;
         $this->sk = $sk;
         $this->client = new Client(['base_uri' => rtrim($baseUrl, '/') . '/']);
+        $curTime = time();
         $this->policy = [
-            'deadline' => time() + 900,
+            'deadline' => $curTime + 60,
             'autoCompress' => 1,
+            'timestamp' => $curTime,
+            'nonce' => $this->createNonce($curTime),
         ];
         $this->token = $this->getToken();
     }
@@ -43,8 +48,13 @@ class FileManager
      */
     public function setPolicy(array $policy)
     {
-        $this->policy = $policy;
-        $this->token = $this->getToken();
+        if (!empty($policy)) {
+            foreach ($policy as $key => $value) {
+                if (in_array($key, $this->policyAllowed)) {
+                    $this->policy[$key] = $value;
+                }
+            }
+        }
     }
 
     /**
@@ -67,6 +77,20 @@ class FileManager
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
+    }
+
+    /**
+     * 生成随机串
+     *
+     */
+    public function createNonce($curTime)
+    {
+        try {
+            $uuid = Uuid::uuid4()->tostring();
+        } catch (\Exception $e) {
+            $uuid = md5(uniqid(mt_rand(), true));
+        }
+        return $uuid;
     }
 
     /**
