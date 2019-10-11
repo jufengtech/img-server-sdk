@@ -34,7 +34,7 @@ class FileManager
         $this->client = new Client(['base_uri' => rtrim($baseUrl, '/') . '/']);
         $curTime = time();
         $this->policy = [
-            'deadline' => $curTime + 60,
+            'deadline' => $curTime + 300,
             'autoCompress' => 1,
             'timestamp' => $curTime,
             'nonce' => $this->createNonce($curTime),
@@ -56,6 +56,7 @@ class FileManager
                     $this->policy[$key] = $value;
                 }
             }
+            $this->token = $this->getToken();
         }
     }
 
