@@ -8,6 +8,9 @@ http 请求使用 Guzzle 三方库（v6.3），具体文档可参考：[Guzzle v
 ```
 composer require jufeng/phpsdk
 ```
+## 图片各个环境服务接口
+- 线上环境 https://imgserver-api.deenet.cn/v1
+- 测试环境 https://test-imgserver-api.deenet.cn/v1 需要绑定 host
 
 ## 使用方法
 ```php
@@ -15,8 +18,8 @@ composer require jufeng/phpsdk
 
 require 'vendor/autoload.php';
 
-// 实例化客户端
-$client = new JF\FileManager('ak', 'sk', 'http://img-upload.20hn.cn/v1');
+// 实例化客户端，最后的参数为加密算法，不传则默认为 sha256
+$client = new JF\FileManager('ak', 'sk', 'https://imgserver-api.deenet.cn/v1/', 'md5');
 
 // 设置上传策略，无特殊需求可省略。参考：参考：http://git.20hn.cn/developer/img-server/wikis/api-des
 // $client->setPolicy(['deadline' => time() + 3600, 'autoCompress' => 1, 'autoWatermark' => 1]);

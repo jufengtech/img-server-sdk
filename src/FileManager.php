@@ -17,6 +17,7 @@ class FileManager
     protected $sk;
     protected $token;
     protected $timeout = 5;
+    protected $encryptionAlgorithm;
     protected $policyAllowed = ['deadline', 'autoCompress', 'autoWatermark', 'timestamp', 'nonce'];
     /**
      * 上传策略。
@@ -25,10 +26,11 @@ class FileManager
      */
     protected $policy;
 
-    public function __construct($ak, $sk, $baseUrl = 'https://img-upload.20hn.cn/v1/')
+    public function __construct($ak, $sk, $baseUrl = 'https://imgserver-api.deenet.cn/v1/', $encryptionAlgorithm = 'sha256')
     {
         $this->ak = $ak;
         $this->sk = $sk;
+        $this->encryptionAlgorithm = $encryptionAlgorithm;
         $this->client = new Client(['base_uri' => rtrim($baseUrl, '/') . '/']);
         $curTime = time();
         $this->policy = [
@@ -65,8 +67,13 @@ class FileManager
     public function getToken()
     {
         $encodeStr = base64_encode(json_encode($this->policy));
-        return base64_encode($this->ak) . ':' . $encodeStr . ':' .
+        if ($this->encryptionAlgorithm == 'md5') {
+            return base64_encode($this->ak) . ':' . $encodeStr . ':' .
+            base64_encode(md5($encodeStr . $this->sk));
+        } else {
+            return base64_encode($this->ak) . ':' . $encodeStr . ':' .
             base64_encode(hash_hmac('sha256', $encodeStr, $this->sk));
+        }
     }
 
     /**
