@@ -37,7 +37,7 @@ class FileManager
             'deadline' => $curTime + 300,
             'autoCompress' => 1,
             'timestamp' => $curTime,
-            'nonce' => $this->createNonce($curTime),
+            'nonce' => $this->createNonce(),
         ];
         $this->token = $this->getToken();
     }
@@ -91,7 +91,7 @@ class FileManager
      * 生成随机串
      *
      */
-    public function createNonce($curTime)
+    public function createNonce()
     {
         try {
             $uuid = Uuid::uuid4()->tostring();
@@ -110,6 +110,8 @@ class FileManager
      */
     public function upload($file)
     {
+        $this->refreshPolicy();
+
         if (!is_readable($file)) {
             throw new \InvalidArgumentException("文件不存在或无读取权限：" . $file);
         }
@@ -143,6 +145,8 @@ class FileManager
      */
     public function collect($url)
     {
+        $this->refreshPolicy();
+
         if (false === filter_var($url, FILTER_VALIDATE_URL)) {
             throw new \InvalidArgumentException("url无效：" . $url);
         }
@@ -160,5 +164,24 @@ class FileManager
             ],
             'timeout' => $this->timeout
         ]);
+    }
+
+    /**
+     * 新的时间戳和随机字符串
+     *
+     * @return null
+     */
+    private function refreshPolicy()
+    {
+        $curTime = time();
+        $this->policy = array_merge(
+            $this->policy,
+            [
+                'deadline' => $curTime + 300,
+                'timestamp' => $curTime,
+                'nonce' => $this->createNonce(),
+            ]
+        );
+        $this->token = $this->getToken();
     }
 }
